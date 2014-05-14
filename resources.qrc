@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/landmasker" >
+        <file>icon.png</file>
+    </qresource>
+</RCC>
