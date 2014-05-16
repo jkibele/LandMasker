@@ -29,6 +29,9 @@ import resources_rc
 from landmaskerdialog import LandMaskerDialog
 import os.path
 
+#- Add my imports
+from raster_handling import *
+
 
 class LandMasker:
 
@@ -68,14 +71,42 @@ class LandMasker:
         self.iface.removePluginMenu(u"&Multispectral Land Mask", self.action)
         self.iface.removeToolBarIcon(self.action)
 
-    # run method that performs all the real work
+    # run method that performs all the real work    
     def run(self):
+        #- populate the combo box with loaded layers
+        self.dlg.initLayerCombobox( self.dlg.inputRasterComboBox, 'key_of_default_layer' )
         # show the dialog
         self.dlg.show()
         # Run the dialog event loop
         result = self.dlg.exec_()
         # See if OK was pressed
         if result == 1:
-            # do something useful (delete the line containing pass and
-            # substitute with your code)
-            pass
+            #- get the  layer
+            rast_layer = self.dlg.layerFromComboBox( self.dlg.inputRasterComboBox )
+            rds = RasterDS( rast_layer )
+            # get the filename
+            filename = str( self.dlg.outputRasterLineEdit.text() )
+            # get the threshold from the dialog
+            thresh = float( self.dlg.thresholdDoubleSpinBox.text() )
+            # get connectivity threshold
+            connthresh = int( self.dlg.connectivitySpinBox.text() )
+            #mask_band = rds.ward_cluster_land_mask()
+            simple_mask = rds.simple_land_mask(threshold=thresh)
+            
+            # filter out small patches
+            mask_band = connectivity_filter(simple_mask,threshold=connthresh)
+            
+            outfile = rds.new_image_from_array(mask_band,outfilename=filename)
+            
+            if self.dlg.addMaskCheckBox.isChecked():
+                fileInfo = QFileInfo(filename)
+                baseName = fileInfo.baseName()
+                rlayer = QgsRasterLayer(filename, baseName)
+                if not rlayer.isValid():
+                    #print "Layer failed to load!"
+                    mbox = QMessageBox()
+                    outtext = "Layer failed to load!"
+                    mbox.setText( outtext )
+                    mbox.setWindowTitle( "Error" )
+                    mbox.exec_()
+                QgsMapLayerRegistry.instance().addMapLayer(rlayer)
