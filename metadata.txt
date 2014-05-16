@@ -26,9 +26,9 @@ email=jkibele@gmail.com
 # tags are comma separated with spaces allowed
 tags=Mask, Land Mask, Water Mask, Coastline, Multispectral
 
-homepage=https://github.com/jkibele/landmask
-tracker=
-repository=https://github.com/jkibele/landmask
+homepage=https://github.com/jkibele/LandMasker
+tracker=https://github.com/jkibele/LandMasker/issues
+repository=https://github.com/jkibele/LandMasker
 icon=icon.png
 # experimental flag
 experimental=True
