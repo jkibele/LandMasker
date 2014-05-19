@@ -96,7 +96,7 @@ class LandMasker:
             # filter out small patches
             mask_band = connectivity_filter(simple_mask,threshold=connthresh)
             
-            outfile = rds.new_image_from_array(mask_band,outfilename=filename)
+            outfile = rds.new_image_from_array(mask_band,outfilename=filename,dtype=GDT_Byte)
             
             if self.dlg.addMaskCheckBox.isChecked():
                 fileInfo = QFileInfo(filename)

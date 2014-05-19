@@ -6,7 +6,7 @@ from scipy.ndimage.measurements import label
 
 class RasterDS(object):
     """
-    Well be getting raster layers as Qgis raster layers but we need to do gdal
+    We'll be getting raster layers as Qgis raster layers but we need to do gdal
     stuff with them. This object will let us do that and let us make our own
     methods. It'll also take a file path to a tif or lan.
     """
@@ -29,7 +29,7 @@ class RasterDS(object):
         # open the image
         img = gdal.Open(self.file_path, GA_ReadOnly)
         if img is None:
-            print 'Could not open %s' % self.file_path
+            print 'Could not open %s. This file does not seem to be one that gdal can open.' % self.file_path
             return None
         else:
             return img
@@ -82,10 +82,10 @@ class RasterDS(object):
                     fname = fname.replace( old, new )
             return fname    
     
-    def new_image_from_array(self,bandarr,outfilename=None):
+    def new_image_from_array(self,bandarr,outfilename=None,dtype=GDT_Float32):
         if not outfilename:
             outfilename = self.output_file_path()
-        output_gtif_like_img(self.gdal_ds, bandarr, outfilename, no_data_value=-99, dtype=GDT_Float32)
+        output_gtif_like_img(self.gdal_ds, bandarr, outfilename, no_data_value=-99, dtype=dtype)
         return RasterDS(outfilename)
         
     def apply_mask_band(self, maskband):
@@ -110,20 +110,23 @@ class RasterDS(object):
         maskband = maskimg.gdal_ds.ReadAsArray()
         return self.apply_mask_band(maskband)
         
-    def new_masked_image(self, maskimg, outfilename=None):
+    def new_masked_image(self, mask, outfilename=None):
         """
-        Write out a new image masked by maskimg.
+        Write out a new image masked by a mask RasterDS or array.
         
-        :param maskimg: The mask image.
-        :type maskimg: RasterDS
+        :param mask: The mask image or band.
+        :type mask: RasterDS or mask array.
         
         :param outfilename: The path for the new image.
         :type outfilename: str
         """
-        new_bandarr = self.apply_mask_image(maskimg)
+        if mask.__class__.__name__=='RasterDS':
+            new_bandarr = self.apply_mask_image(mask)
+        else:
+            new_bandarr = self.apply_mask_band(mask)
         if not outfilename:
             outfilename = self.output_file_path(add_on="_masked")
-        return self.new_image_from_array( new_bandarr, outfilename=outfilename)
+        return self.new_image_from_array( new_bandarr, outfilename=outfilename, dtype=GDT_UInt16)
         
     
     def ward_cluster_land_mask(self,threshold=50):

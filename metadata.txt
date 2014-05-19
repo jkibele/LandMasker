@@ -12,7 +12,7 @@
 name=Multispectral Land Mask
 qgisMinimumVersion=2.0
 description=Generate a mask from a multispectral image to separate land from water.
-version=0.1
+version=0.1.5
 author=Jared Kibele
 email=jkibele@gmail.com
 
