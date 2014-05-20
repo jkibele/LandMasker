@@ -33,7 +33,7 @@ TRANSLATIONS =
 
 PLUGINNAME = landmasker
 
-PY_FILES = landmasker.py landmaskerdialog.py __init__.py
+PY_FILES = landmasker.py landmaskerdialog.py __init__.py raster_handling.py
 
 EXTRAS = icon.png metadata.txt
 
