@@ -4,7 +4,6 @@ import os
 import numpy as np
 from scipy.ndimage.measurements import label
 
-
 class RasterDS(object):
     """
     We'll be getting raster layers as Qgis raster layers but we need to do gdal

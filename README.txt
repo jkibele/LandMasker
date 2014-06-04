@@ -1,34 +1,11 @@
-Plugin Builder Results
+This plugin creates a mask based on values in the longest wavelength 
+band available in a multispectral image. The user can set a threshold 
+value. Pixels with a value below that threshold are considered to be 
+water while those above are considered to be land. A connectivity 
+threshold can also be set so that isolated pixels identified as water
+can be eliminated. This reduces the number of shadowed areas on land 
+that are misclassified as water and ensures that the pixels identified 
+as water are continuous.
 
-Your plugin LandMasker was created in:
-    /home/jkibele/Documents/code_projects/landmask/LandMasker
-
-Your QGIS plugin directory is located at:
-    /home/jkibele/.qgis2/python/plugins
-
-What's Next:
-
-  * Copy the entire directory containing your new plugin to the QGIS plugin
-    directory
-
-  * Compile the ui file using pyuic4
-
-  * Compile the resources file using pyrcc4
-
-  * Test the plugin by enabling it in the QGIS plugin manager
-
-  * Customize it by editing the implementation file:
-         landmasker.py
-
-  * Create your own custom icon, replacing the default icon.png
-
-  * Modify your user interface by opening landmasker.ui
-    in Qt Designer (don't forget to compile it with pyuic4 after changing it)
-
-  * You can use the Makefile to compile your Ui and resource files when
-    you make changes. This requires GNU make (gmake)
-
-For more information, see the PyQGIS Developer Cookbook at:
-http://www.qgis.org/pyqgis-cookbook/index.html
-
-(C) 2011-2014 GeoApt LLC - geoapt.com
+This plugin needs more testing and documentation before it has the 
+expirimental flag turned off.
