@@ -82,10 +82,13 @@ class RasterDS(object):
                     fname = fname.replace( old, new )
             return fname    
     
-    def new_image_from_array(self,bandarr,outfilename=None,dtype=GDT_Float32):
+    def new_image_from_array(self,bandarr,outfilename=None,dtype=GDT_Float32,no_data_value=-99):
+        """
+        Save an image like self from a band array.
+        """
         if not outfilename:
             outfilename = self.output_file_path()
-        output_gtif_like_img(self.gdal_ds, bandarr, outfilename, no_data_value=-99, dtype=dtype)
+        output_gtif_like_img(self.gdal_ds, bandarr, outfilename, no_data_value=no_data_value, dtype=dtype)
         return RasterDS(outfilename)
         
     def apply_mask_band(self, maskband):
