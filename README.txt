@@ -9,3 +9,7 @@ as water are continuous.
 
 This plugin needs more testing and documentation before it has the 
 expirimental flag turned off.
+
+If you'd like to use my code for your project please acknowledge my 
+work and send me an email to let me know. I want people to use my code
+but it's just kind of rude to take without asking.
